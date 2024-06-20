@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/style.css">
     <style>
  .container {
- max-width: 800px;
+ max-width: 1000px;
  }
  .field-error {
  border-color: #dc3545;
@@ -29,8 +29,9 @@
       <th>이름</th>
       <th>이메일</th>
       <th>핸드폰</th>
-      <th>가입날짜</th>
+      <th>부서</th>
       <th>가입일</th>
+      <th>수정일</th>
       <th>탈퇴여부</th>
     </tr>
     </thead>
@@ -40,8 +41,9 @@
       <td th:text="${user.name}">이름</td>
       <td th:text="${user.email}">이메일</td>
       <td th:text="${user.phone}">핸드폰</td>
-      <td th:text="${user.department.departmentName}">가입날짜</td>
-      <td th:text="${user.createdTime}">가입일</td>
+      <td th:text="${user.department.departmentName}">부서</td>
+      <td th:text="${user.createdAt}">가입일</td>
+      <td th:text="${user.updatedAt}">수정일</td>
       <td th:if="${user.isDeleted}">탈퇴O</td>
       <td th:unless="${user.isDeleted}">탈퇴X</td>
     </tr>

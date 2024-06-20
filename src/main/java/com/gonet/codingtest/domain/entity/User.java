@@ -27,8 +27,8 @@ public class User {
     @ManyToOne
     private Department department;
     private boolean isDeleted;
-    private LocalDateTime createdTime;
-    private LocalDateTime editedTime;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     public void updateUser(String username,String password,String name,String email,String phone,Department department){
         this.username=username;
         this.password=password;
@@ -36,7 +36,7 @@ public class User {
         this.email=email;
         this.phone=phone;
         this.department=department;
-        this.editedTime=LocalDateTime.now();
+        this.updatedAt=LocalDateTime.now();
     }
 
     public void delete() {

@@ -39,8 +39,8 @@ public class JoinUserDto {
                 .email(email)
                 .phone(phone)
                 .isDeleted(false)
-                .createdTime(LocalDateTime.now())
-                .editedTime(null)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(null)
                 .build();
         // 기타 필요한 필드 복사 작업 수행
         return user;
