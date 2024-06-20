@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Bean//시큐리티 필터
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((auth) -> auth
-                .requestMatchers("/users").authenticated()//로그인 했으면 가능
+                .requestMatchers("/users","/users/edit/info").authenticated()//로그인 했으면 가능
                 .anyRequest().permitAll()//나머지는 그냥 가능
         );
 
