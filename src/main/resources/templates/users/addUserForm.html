@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+ .container {
+ max-width: 560px;
+ }
+ .field-error {
+ border-color: #dc3545;
+ color: #dc3545;
+ }
+ .department-container{
+    display: inline-block;
+    margin-right: 5px;
+    }
+ </style>
+</head>
+<body><div class="container">
+  <div class="py-5 text-center">
+    <h2>회원 가입</h2>
+  </div>
+  <h4 class="mb-3">회원 정보 입력</h4>
+  <form id="signupForm" action="" th:action th:object="${user}" method="post">
+    <div th:if="${#fields.hasGlobalErrors()}">
+      <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}">전체 오류 메시지</p>
+    </div>
+    <div>
+      <label for="username">로그인 ID</label>
+      <input type="text" id="username" th:field="*{username}" class="form-control"
+             th:errorclass="field-error" placeholder="로그인ID를 입력하세요">
+      <button id="idCheck" type="button" onclick="loginIdSameCheck()">중복확인</button>
+      <div class="field-error" th:errors="*{username}" />
+    </div>
+    <div>
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" th:field="*{password}"
+             class="form-control"
+             th:errorclass="field-error" placeholder="비밀번호를 입력하세요">
+      <div class="field-error" th:errors="*{password}" />
+    </div>
+    <div>
+      <label for="name">이름</label>
+      <input type="text" id="name" th:field="*{name}" class="form-control"
+             th:errorclass="field-error" placeholder="이름을 입력하세요" >
+      <div class="field-error" th:errors="*{name}" />
+    </div>
+    <div>부서</div>
+    <div th:each="department : ${departments}" class="department-container">
+      <input type="radio" th:id="${'department_' + department.id}" th:name="departmentId" th:value="${department.id}" />
+      <label th:for="${'department_' + department.id}" th:text="${department.departmentName}">부서</label>
+    </div>
+    <div class="field-error" th:errors="*{departmentId}" />
+    <hr>
+    <div>선택사항입니다. 입력을 원하지 않으시면 입력하지 않으셔도 됩니다.</div>
+    <div>
+      <label for="email">이메일</label>
+      <input type="text" id="email" th:field="*{email}" class="form-control"
+             th:errorclass="field-error" placeholder="이메일을 입력하세요" >
+      <div class="field-error" th:errors="*{email}" />
+    </div>
+    <div>
+      <label for="phone">핸드폰</label>
+      <input type="text" id="phone" th:field="*{phone}" class="form-control"
+             th:errorclass="field-error" placeholder="핸드폰 번호를 입력하세요. 숫자만 입력하세요. ex:01012341234" >
+      <div class="field-error" th:errors="*{phone}" />
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="button" onclick="valid()">회원가입</button> </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/}'|"
+                type="button">취소</button>
+      </div>
+    </div>
+  </form>
+</div> <!-- /container -->
+</body>
+</html>
+<script>
+  var loginIdCheck = false;
+  function valid() {
+      if (loginIdCheck) { // true 가 되면 회원가입 버튼 동작함
+          document.getElementById('signupForm').submit();
+      } else {
+          alert('로그인ID 중복확인을 해주세요.');
+        				// 회원가입 버튼누르면 뜬다
+          return false; // 회원가입 버튼을 막는다
+      }
+  }
+  function loginIdSameCheck() {
+      let username = $('#username').val()
+      $.ajax({
+          type: "POST",
+          url: "/join/loginIdCheck",
+          datatype:'json',
+          data: username,
+          contentType: "application/json; charset=UTF-8",
+          success: function(response) {
+            // 성공적으로 응답 받았을 때의 처리
+            if(response.data) {
+                var useLoginId = confirm(response.msg + ' 해당 로그인 ID를 사용하시겠습니까?');
+                if(useLoginId) {
+                    // 사용자가 '예'를 선택했을 경우
+                    loginIdCheck = true;
+                    $('#username').prop('readonly', true); // 입력 필드 비활성화
+                } else {
+                    // 사용자가 '아니오'를 선택했을 경우
+                    $('#username').val(''); // 입력 필드 초기화
+                    $('#username').focus(); // 입력 필드에 다시 포커스
+                }
+            } else {
+                alert(response.msg);
+            }
+        },
+        error: function(xhr, status, error) {
+            // 에러 발생 시 처리
+            alert('에러 발생: ' + error);
+        }
+    });
+
+}
+</script>

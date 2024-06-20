@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http//www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 페이지</title>
+    <title>회원가입 프로그램</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/custom.css">
     <link rel="stylesheet" href="/style.css">
@@ -24,10 +24,13 @@
             <!-- user 일때 -->
             <ul sec:authorize="hasRole('ROLE_USER')" class="navbar-nav">
                 <li class="nav-item">
-                    <button class="nav-btn" onclick="location.href = '/users/my'">내 정보</button>
+                    <button class="nav-btn" onclick="location.href = '/users/my'">정보수정</button>
                 </li>
                 <li class="nav-item">
-                    <button th:onclick="|location.href='@{/contents/write}'|" class="nav-btn">글쓰기</button>
+                    <button class="nav-btn" onclick="location.href = '/users/delete'" >탈퇴하기</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn" onclick="location.href = '/users/list'">회원목록</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-btn" onclick="location.href = '/users/logout'">로그아웃</button>
