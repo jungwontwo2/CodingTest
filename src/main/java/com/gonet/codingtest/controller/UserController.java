@@ -9,8 +9,11 @@ import com.gonet.codingtest.domain.entity.User;
 import com.gonet.codingtest.service.DepartmentService;
 import com.gonet.codingtest.service.LoginService;
 import com.gonet.codingtest.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -135,10 +138,11 @@ public class UserController {
         return "redirect:/";
     }
     @PostMapping("users/delete")
-    public String deleteUser(Authentication authentication){
+    public String deleteUser(HttpServletRequest request, HttpServletResponse response,Authentication authentication){
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
         String username = principal.getUsername();
         userService.deleteUser(username);
+        new SecurityContextLogoutHandler().logout(request,response,authentication);
         return "redirect:/";
     }
 }
