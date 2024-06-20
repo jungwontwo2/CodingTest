@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>회원목록</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+ .container {
+ max-width: 800px;
+ }
+ .field-error {
+ border-color: #dc3545;
+ color: #dc3545;
+ }
+ </style>
+</head>
+<body>
+<nav style="margin-bottom: 60px;">
+  <div>
+    <h2>회원목록</h2>
+  </div>
+</nav>
+<div class="container">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>아이디</th>
+      <th>이름</th>
+      <th>이메일</th>
+      <th>핸드폰</th>
+      <th>가입날짜</th>
+      <th>가입일</th>
+      <th>탈퇴여부</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.username}">아이디</td>
+      <td th:text="${user.name}">이름</td>
+      <td th:text="${user.email}">이메일</td>
+      <td th:text="${user.phone}">핸드폰</td>
+      <td th:text="${user.department.departmentName}">가입날짜</td>
+      <td th:text="${user.createdTime}">가입일</td>
+      <td th:if="${user.isDeleted}">탈퇴O</td>
+      <td th:unless="${user.isDeleted}">탈퇴X</td>
+    </tr>
+    </tbody>
+  </table>
+    <div>
+        <button class="w-100 btn-secondary btn-lg"
+                onclick="location.href='items.html'"
+                th:onclick="|location.href='@{/}'|"
+                type="button">홈으로</button>
+    </div>
+</div>
+</body>
+</html>

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,8 +36,10 @@ public class UserService {
     public void updateUser(String username,EditUserDto editUserDto) {
         User user = userRepository.findByUsername(username).orElse(null);
         Department department = departmentService.findDepartmentById(editUserDto.getDepartmentId());
+        String email = (editUserDto.getEmail() != null && !editUserDto.getEmail().isEmpty()) ? editUserDto.getEmail() : null;
+        String phone = (editUserDto.getPhone() != null && !editUserDto.getPhone().isEmpty()) ? editUserDto.getPhone() : null;
         user.updateUser(editUserDto.getUsername(), bCryptPasswordEncoder.encode(editUserDto.getPassword()), editUserDto.getName(),
-                editUserDto.getEmail(), editUserDto.getPhone(), department);
+                email, phone, department);
         userRepository.save(user);
     }
 
@@ -43,5 +47,9 @@ public class UserService {
         User user = userRepository.findByUsername(username).orElse(null);
         user.delete();
         userRepository.save(user);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 }

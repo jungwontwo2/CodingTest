@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Controller
@@ -44,6 +45,9 @@ public class UserController {
     public @ResponseBody ResponseDto<?> check(@RequestBody(required = false) String username) {
         if (username == null || username.isEmpty()) {
             return new ResponseDto<>(-1, "아이디를 입력해주세요.", null);
+        }
+        if(!username.matches("^[a-zA-Z0-9가-힣]+$") || username.length()<4 || username.length()>10) {
+            return new ResponseDto<>(-1, "로그인ID는 영어와 숫자를 포함하여 4이상 10이하의 글자로 설정해주세요.", null);
         }
         User user = userService.getUserByUsername(username);
         if (user == null) {
@@ -144,5 +148,11 @@ public class UserController {
         userService.deleteUser(username);
         new SecurityContextLogoutHandler().logout(request,response,authentication);
         return "redirect:/";
+    }
+    @GetMapping("users/list")
+    public String showUsers(Model model){
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("users",users);
+        return "users/list";
     }
 }

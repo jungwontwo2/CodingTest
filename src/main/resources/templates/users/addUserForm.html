@@ -32,7 +32,7 @@
     <div>
       <label for="username">로그인 ID</label>
       <input type="text" id="username" th:field="*{username}" class="form-control"
-             th:errorclass="field-error" placeholder="로그인ID를 입력하세요">
+             th:errorclass="field-error" placeholder="알파벳 소문자, 숫자로 최소 4자 이상 최대 10자 이하">
       <button id="idCheck" type="button" onclick="loginIdSameCheck()">중복확인</button>
       <div class="field-error" th:errors="*{username}" />
     </div>
@@ -40,7 +40,7 @@
       <label for="password">비밀번호</label>
       <input type="password" id="password" th:field="*{password}"
              class="form-control"
-             th:errorclass="field-error" placeholder="비밀번호를 입력하세요">
+             th:errorclass="field-error" placeholder="알파벳 대소문자, 숫자로 최소 8자 이상 최대 20글자 이하">
       <div class="field-error" th:errors="*{password}" />
     </div>
     <div>

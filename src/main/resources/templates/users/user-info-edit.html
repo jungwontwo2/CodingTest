@@ -42,7 +42,7 @@
             </div>
             <div class="col-8">
                 <label for="password">비밀번호</label>
-                <input type="text" id="password" th:field="${editUserDto.password}" class="form-control"
+                <input type="password" id="password" th:field="${editUserDto.password}" class="form-control"
                        th:errorclass="field-error">
                 <div class="field-error" th:errors="${editUserDto.password}" />
             </div>
