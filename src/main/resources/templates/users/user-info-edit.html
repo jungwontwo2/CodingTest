@@ -10,37 +10,67 @@
  border-color: #dc3545;
  color: #dc3545;
  }
+ .department-container{
+    display: inline-block;
+    margin-right: 5px;
+ }
+ .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
  </style>
 </head>
 <body>
 <nav style="margin-bottom: 60px;">
     <div class="page-title">
-        <div class="container">
+        <div>
             <h3>내 정보수정</h3>
         </div>
     </div>
 </nav>
-<div class="container text-center" >
-    <div class="row ">
-        <div class="col-4">
-            <label class="form-label mt-4 col-4">회원 정보 수정</label>
-            <button type="button" class="btn-outline-primary btn-sm col-6" onclick="location='/users/update/password'">비밀번호 변경</button>
-        </div>
+<div class="container" >
         <form action="" th:action th:object="${user}" method="post" class="col-6">
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="field-error" th:each="err : ${#fields.globalErrors()}"
                    th:text="${err}">전체 오류 메시지</p>
             </div>
             <div class="col-8">
-                <label for="nickname">ID는 변경할 수 없습니다</label>
-                <input type="text" id="loginId" th:field="${user.loginId}" class="form-control"
+                <label for="username">로그인ID는 변경할 수 없습니다</label>
+                <input type="text" id="username" th:field="*{username}" class="form-control"
                        th:errorclass="field-error" readonly>
             </div>
             <div class="col-8">
-                <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" th:field="*{nickname}" class="form-control"
+                <label for="password">비밀번호</label>
+                <input type="text" id="password" th:field="${editUserDto.password}" class="form-control"
                        th:errorclass="field-error">
-                <div class="field-error" th:errors="*{nickname}" />
+                <div class="field-error" th:errors="${editUserDto.password}" />
+            </div>
+            <div class="col-8">
+                <label for="name">이름</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control"
+                       th:errorclass="field-error">
+                <div class="field-error" th:errors="${editUserDto.name}" />
+            </div>
+            <div class="col-8">부서</div>
+            <div th:each="department : ${departments}" class="department-container">
+                <input type="radio" th:id="${'department_' + department.id}" th:name="departmentId" th:value="${department.id}" />
+                <label th:for="${'department_' + department.id}" th:text="${department.departmentName}">부서</label>
+            </div>
+            <div class="field-error" th:errors="${editUserDto.departmentId}" />
+            <hr>
+            <div>선택사항입니다. 입력을 원하지 않으시면 입력하지 않으셔도 됩니다.</div>
+            <div class="col-8">
+                <label for="email">이메일</label>
+                <input type="text" id="email" th:field="*{email}" class="form-control"
+                       th:errorclass="field-error">
+                <div class="field-error" th:errors="${editUserDto.email}" />
+            </div>
+            <div class="col-8">
+                <label for="phone">핸드폰</label>
+                <input type="text" id="phone" th:field="*{phone}" class="form-control"
+                       th:errorclass="field-error">
+                <div class="field-error" th:errors="${editUserDto.phone}" />
             </div>
             <hr class="my-4 col-8">
             <div class="row">
@@ -49,7 +79,7 @@
                 <div class="col-4">
                     <button class="w-100 btn-secondary btn-lg"
                             onclick="location.href='items.html'"
-                            th:onclick="|location.href='@{/users/my}'|"
+                            th:onclick="|location.href='@{/}'|"
                             type="button">취소</button>
                 </div>
             </div>

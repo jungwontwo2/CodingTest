@@ -1,5 +1,6 @@
 package com.gonet.codingtest.service;
 
+import com.gonet.codingtest.domain.dto.user.EditUserDto;
 import com.gonet.codingtest.domain.dto.user.JoinUserDto;
 import com.gonet.codingtest.domain.entity.Department;
 import com.gonet.codingtest.domain.entity.User;
@@ -26,11 +27,15 @@ public class UserService {
 
     }
 
-    public User getUserByLoginId(String username) {
+    public User getUserByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-//    public void saveUser(JoinUserDto user) {
-//        JoinUserDto.toEntity(user.getUsername(),user.getPassword(),user.getName(),user.getEmail(),user.getPhone(),user.getde)
-//    }
+    public void updateUser(String username,EditUserDto editUserDto) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Department department = departmentService.findDepartmentById(editUserDto.getDepartmentId());
+        user.updateUser(editUserDto.getUsername(), bCryptPasswordEncoder.encode(editUserDto.getPassword()), editUserDto.getName(),
+                editUserDto.getEmail(), editUserDto.getPhone(), department);
+        userRepository.save(user);
+    }
 }

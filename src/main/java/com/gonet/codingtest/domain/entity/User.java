@@ -1,5 +1,6 @@
 package com.gonet.codingtest.domain.entity;
 
+import com.gonet.codingtest.domain.dto.user.EditUserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +29,13 @@ public class User {
     private boolean isDeleted;
     private LocalDateTime createdTime;
     private LocalDateTime editedTime;
-
+    public void updateUser(String username,String password,String name,String email,String phone,Department department){
+        this.username=username;
+        this.password=password;
+        this.name=name;
+        this.email=email;
+        this.phone=phone;
+        this.department=department;
+        this.editedTime=LocalDateTime.now();
+    }
 }
