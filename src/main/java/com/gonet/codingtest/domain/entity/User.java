@@ -38,4 +38,8 @@ public class User {
         this.department=department;
         this.editedTime=LocalDateTime.now();
     }
+
+    public void delete() {
+        this.isDeleted=true;
+    }
 }

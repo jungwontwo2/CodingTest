@@ -38,4 +38,10 @@ public class UserService {
                 editUserDto.getEmail(), editUserDto.getPhone(), department);
         userRepository.save(user);
     }
+
+    public void deleteUser(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        user.delete();
+        userRepository.save(user);
+    }
 }

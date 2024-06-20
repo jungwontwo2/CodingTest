@@ -6,14 +6,11 @@ import com.gonet.codingtest.domain.dto.user.EditUserDto;
 import com.gonet.codingtest.domain.dto.user.JoinUserDto;
 import com.gonet.codingtest.domain.dto.user.LoginUserDto;
 import com.gonet.codingtest.domain.entity.User;
-import com.gonet.codingtest.service.CustomUserDetailsService;
 import com.gonet.codingtest.service.DepartmentService;
 import com.gonet.codingtest.service.LoginService;
 import com.gonet.codingtest.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -135,6 +132,13 @@ public class UserController {
             return "users/user-info-edit";
         }
         userService.updateUser(username,editUserDto);
+        return "redirect:/";
+    }
+    @PostMapping("users/delete")
+    public String deleteUser(Authentication authentication){
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        String username = principal.getUsername();
+        userService.deleteUser(username);
         return "redirect:/";
     }
 }
